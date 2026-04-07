@@ -2,472 +2,287 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Super Hero Agent</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono&display=swap" rel="stylesheet">
+
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #f8f8f6;
-  --white: #ffffff;
-  --border: rgba(0,0,0,0.09);
-  --border2: rgba(0,0,0,0.15);
-  --text: #1a1a1a;
-  --muted: #999;
-  --muted2: #666;
-  --green: #10a37f;
-  --blue: #2563eb;
-  --amber: #d97706;
-  --sans: 'DM Sans', sans-serif;
-  --mono: 'DM Mono', monospace;
+body {
+    margin:0;
+    font-family:'DM Sans', sans-serif;
+    background:#ffffff;
+    color:#111;
 }
-html, body { height: 100%; overflow: hidden; background: var(--bg); }
-body { font-family: var(--sans); color: var(--text); display: flex; flex-direction: column; height: 100dvh; -webkit-text-size-adjust: 100%; }
 
-/* HEADER */
-.header { display: flex; align-items: center; padding: 0 16px; height: 54px; background: var(--white); border-bottom: 1px solid var(--border); flex-shrink: 0; gap: 10px; }
-.logo { font-size: 17px; font-weight: 600; flex: 1; }
-.logo span { color: var(--green); }
-.badge-live { display: flex; align-items: center; gap: 5px; padding: 4px 10px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 20px; font-family: var(--mono); font-size: 9px; color: var(--green); }
-.dot-live { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-.badge-engine { padding: 4px 10px; background: #f0fdf9; border: 1px solid #d1fae5; border-radius: 20px; font-family: var(--mono); font-size: 9px; color: var(--green); }
+.container {
+    max-width:1000px;
+    margin:auto;
+    padding:10px;
+}
 
-/* TABS */
-.tabs { display: flex; background: var(--white); border-bottom: 1px solid var(--border); flex-shrink: 0; }
-.tab { flex: 1; padding: 13px 4px; font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); border: none; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; -webkit-tap-highlight-color: transparent; }
-.tab.on { color: var(--green); border-bottom-color: var(--green); font-weight: 600; }
+.tabs {
+    display:flex;
+    justify-content:space-around;
+    border-bottom:1px solid #eee;
+}
 
-/* PAGES */
-.pages { flex: 1; overflow: hidden; position: relative; }
-.page { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; display: none; }
-.page.on { display: flex; flex-direction: column; }
+.tab {
+    padding:10px;
+    cursor:pointer;
+}
 
-/* CHAT */
-.msgs { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; -webkit-overflow-scrolling: touch; }
+.active {
+    font-weight:bold;
+    border-bottom:2px solid #000;
+}
 
-/* WELCOME */
-.welcome { margin: auto; text-align: center; padding: 24px 16px; }
-.welcome h1 { font-size: 32px; font-weight: 700; line-height: 1.15; margin-bottom: 10px; }
-.welcome h1 span { color: var(--green); }
-.welcome p { font-size: 13px; color: var(--muted2); line-height: 1.7; margin-bottom: 24px; }
-.qgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.qbtn { padding: 12px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; font-size: 11px; font-weight: 500; color: var(--muted2); cursor: pointer; text-align: left; line-height: 1.5; -webkit-tap-highlight-color: transparent; transition: border-color .15s; }
-.qbtn:active { border-color: var(--green); }
-.qbtn i { font-style: normal; font-size: 16px; display: block; margin-bottom: 4px; }
+.section {
+    display:none;
+    padding:10px;
+}
 
-/* MESSAGES */
-.msg { display: flex; gap: 8px; }
-.msg.me { flex-direction: row-reverse; align-self: flex-end; max-width: 85%; }
-.msg.ai { max-width: 96%; }
-.av { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; font-weight: 600; flex-shrink: 0; }
-.av-ai { background: #f0fdf9; border: 1px solid #d1fae5; color: var(--green); }
-.av-me { background: #f0f0ee; border: 1px solid var(--border2); color: var(--muted2); }
-.bubble { padding: 10px 14px; border-radius: 14px; font-size: 13px; line-height: 1.65; }
-.bubble.ai { background: var(--white); border: 1px solid var(--border); border-top-left-radius: 3px; }
-.bubble.me { background: var(--text); color: white; border-top-right-radius: 3px; }
-.ai-label { font-family: var(--mono); font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--green); margin-bottom: 6px; }
-.bubble pre { background: var(--bg); border: 1px solid var(--border2); border-radius: 8px; padding: 10px; font-family: var(--mono); font-size: 10px; overflow-x: auto; margin: 8px 0; line-height: 1.6; white-space: pre-wrap; word-break: break-all; }
-.bubble strong { font-weight: 600; }
-.bubble a { color: var(--blue); }
-.bubble ul, .bubble ol { padding-left: 18px; }
-.bubble li { margin: 3px 0; }
-.tool-tag { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; background: #f0f0ee; border: 1px solid var(--border2); border-radius: 20px; font-family: var(--mono); font-size: 9px; color: var(--muted2); margin: 2px; }
+.section.active {
+    display:block;
+}
 
-/* TYPING */
-.typing-row { display: flex; gap: 8px; }
-.typing-bub { padding: 10px 14px; background: var(--white); border: 1px solid var(--border); border-radius: 14px; border-top-left-radius: 3px; display: flex; align-items: center; gap: 8px; }
-.typing-lbl { font-family: var(--mono); font-size: 8px; color: var(--muted); text-transform: uppercase; }
-.dots span { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--muted); margin: 0 1px; animation: dot 1.2s infinite; }
-.dots span:nth-child(2) { animation-delay: .15s; }
-.dots span:nth-child(3) { animation-delay: .3s; }
-@keyframes dot { 0%,80%,100%{transform:scale(.5);opacity:.4} 40%{transform:scale(1);opacity:1} }
+.chat-box {
+    height:60vh;
+    overflow-y:auto;
+    border:1px solid #eee;
+    padding:10px;
+    margin-bottom:10px;
+}
 
-/* INPUT */
-.input-area { padding: 12px 14px; border-top: 1px solid var(--border); background: var(--white); flex-shrink: 0; }
-.mode-chips { display: flex; gap: 5px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 2px; }
-.mode-chips::-webkit-scrollbar { display: none; }
-.chip { padding: 4px 11px; border-radius: 20px; font-family: var(--mono); font-size: 9px; text-transform: uppercase; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
-.chip.on { background: var(--text); border-color: var(--text); color: white; }
-.inp-row { display: flex; gap: 8px; align-items: flex-end; }
-textarea { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; color: var(--text); font-family: var(--sans); font-size: 16px; resize: none; outline: none; min-height: 44px; max-height: 120px; line-height: 1.5; -webkit-appearance: none; }
-textarea:focus { border-color: var(--text); background: var(--white); }
-textarea::placeholder { color: var(--muted); }
-.send { width: 44px; height: 44px; border-radius: 12px; background: var(--text); border: none; color: white; font-size: 20px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
-.send:active { transform: scale(.93); }
-.send:disabled { opacity: .35; }
+.input-area {
+    display:flex;
+}
 
-/* CONFIG PAGE */
-.config-page { padding: 16px; gap: 12px; overflow-y: auto; }
-.card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
-.card-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-.card-sub { font-size: 12px; color: var(--muted2); margin-bottom: 14px; line-height: 1.6; }
-.st { font-family: var(--mono); font-size: 9px; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; margin-left: auto; }
-.st-off { background: #f3f4f6; color: var(--muted); }
-.st-on { background: #f0fdf4; color: var(--green); }
-.kinp { width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--border2); border-radius: 10px; color: var(--text); font-family: var(--mono); font-size: 15px; outline: none; margin-bottom: 10px; -webkit-appearance: none; }
-.kinp:focus { border-color: var(--green); }
-.kinp::placeholder { color: var(--muted); }
-.kbtn { width: 100%; padding: 13px; border-radius: 10px; border: none; background: var(--green); color: white; font-family: var(--sans); font-size: 15px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.kbtn:active { opacity: .85; }
-.klink { display: block; margin-top: 10px; font-family: var(--mono); font-size: 10px; color: var(--blue); text-decoration: none; text-align: center; }
-.info-card { background: #f0fdf9; border: 1px solid #d1fae5; border-radius: 14px; padding: 14px; font-size: 12px; color: #065f46; line-height: 1.7; }
-.warn-card { background: #fffbeb; border: 1px solid #fde68a; border-radius: 14px; padding: 14px; font-size: 12px; color: var(--amber); line-height: 1.7; }
+input, textarea {
+    flex:1;
+    padding:10px;
+    border:1px solid #ddd;
+}
 
-/* TOOLS PAGE */
-.tools-page { padding: 12px; gap: 8px; overflow-y: auto; }
-.tool-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 13px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: border-color .15s; }
-.tool-card:active { border-color: var(--green); background: var(--bg); }
-.tc-top { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
-.tc-icon { font-size: 18px; }
-.tc-name { font-size: 13px; font-weight: 600; flex: 1; }
-.tc-badge { font-family: var(--mono); font-size: 9px; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; }
-.free { background: #f0fdf4; color: var(--green); }
-.pay { background: #fffbeb; color: var(--amber); }
-.key { background: #f5f3ff; color: #7c3aed; }
-.tc-desc { font-size: 11px; color: var(--muted2); line-height: 1.5; }
-.tc-link { display: inline-block; margin-top: 5px; font-family: var(--mono); font-size: 9px; color: var(--blue); text-decoration: none; }
+button {
+    padding:10px;
+    border:none;
+    background:#000;
+    color:#fff;
+    cursor:pointer;
+}
 
-/* HISTORY PAGE */
-.hist-page { padding: 12px; gap: 8px; overflow-y: auto; }
-.hist-empty { text-align: center; color: var(--muted); font-size: 13px; padding: 50px 20px; line-height: 1.7; margin: auto; }
-.hist-item { padding: 12px; background: var(--white); border: 1px solid var(--border); border-radius: 10px; font-size: 12px; color: var(--muted2); cursor: pointer; line-height: 1.5; -webkit-tap-highlight-color: transparent; }
-.hist-item:active { color: var(--text); border-color: var(--border2); }
+.card {
+    border:1px solid #eee;
+    padding:15px;
+    margin:10px 0;
+    cursor:pointer;
+}
+
+.status {
+    margin-top:10px;
+    font-weight:bold;
+}
+
+@media(max-width:600px){
+    .chat-box{height:50vh;}
+}
 </style>
 </head>
+
 <body>
 
-<div class="header">
-  <div class="logo">My <span>Super Hero</span> Agent</div>
-  <div class="badge-live"><div class="dot-live"></div>En ligne</div>
-  <div class="badge-engine" id="eng-badge">● GPT-4o</div>
-</div>
+<div class="container">
+
+<h2>🦸 My Super Hero Agent</h2>
 
 <div class="tabs">
-  <button class="tab on" id="tab-chat" onclick="showTab('chat')">💬 Chat</button>
-  <button class="tab" id="tab-tools" onclick="showTab('tools')">🔌 Outils</button>
-  <button class="tab" id="tab-config" onclick="showTab('config')">⚙️ Config</button>
-  <button class="tab" id="tab-hist" onclick="showTab('hist')">📋 Historique</button>
+    <div class="tab active" onclick="switchTab(0)">💬 Chat</div>
+    <div class="tab" onclick="switchTab(1)">🔌 Outils</div>
+    <div class="tab" onclick="switchTab(2)">⚙️ Config</div>
+    <div class="tab" onclick="switchTab(3)">📋 Historique</div>
 </div>
 
-<div class="pages">
+<!-- CHAT -->
+<div class="section active">
+    <div class="chat-box" id="chatBox"></div>
 
-  <!-- CHAT -->
-  <div class="page on" id="page-chat">
-    <div class="msgs" id="msgs">
-      <div class="welcome" id="welcome">
-        <h1>My <span>Super Hero</span><br>Agent</h1>
-        <p>GPT-4o en temps réel.<br>GitHub, WordPress, TikTok, APIs, workflows.</p>
-        <div class="qgrid">
-          <button class="qbtn" onclick="ask('Analyse mon repo GitHub talalnewjersey-ops et suggère des améliorations')"><i>🔍</i>Analyser GitHub</button>
-          <button class="qbtn" onclick="ask('Corriger les bugs de moneyabroadguide.com layout, menu double et mobile')"><i>🐛</i>Fix WordPress</button>
-          <button class="qbtn" onclick="ask('Crée un workflow complet WordPress vers TikTok avec le code complet')"><i>⚙️</i>TikTok Auto</button>
-          <button class="qbtn" onclick="ask('Comment connecter une API REST avec OAuth ? Donne le code complet')"><i>🔌</i>API Builder</button>
-          <button class="qbtn" onclick="ask('Crée un GitHub Actions CI/CD pour déployer mon site automatiquement')"><i>🚀</i>CI/CD Deploy</button>
-          <button class="qbtn" onclick="ask('Quelles APIs gratuites pour automatiser mon business moneyabroadguide.com ?')"><i>💡</i>APIs gratuites</button>
-        </div>
-      </div>
+    <div>
+        <select id="mode">
+            <option>Chat</option>
+            <option>GitHub</option>
+            <option>API</option>
+            <option>Workflow</option>
+            <option>Debug</option>
+            <option>WordPress</option>
+        </select>
     </div>
+
     <div class="input-area">
-      <div class="mode-chips">
-        <button class="chip on" onclick="setChip(this,'Chat général')">Chat</button>
-        <button class="chip" onclick="setChip(this,'GitHub — analyse, debug, CI/CD')">GitHub</button>
-        <button class="chip" onclick="setChip(this,'API REST — connexion, auth, code')">API</button>
-        <button class="chip" onclick="setChip(this,'Workflow — Make.com, Zapier')">Workflow</button>
-        <button class="chip" onclick="setChip(this,'Debug — corriger erreurs')">Debug</button>
-        <button class="chip" onclick="setChip(this,'WordPress — moneyabroadguide.com')">WordPress</button>
-      </div>
-      <div class="inp-row">
-        <textarea id="inp" rows="1" placeholder="Pose ta question..."
-          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
-        <button class="send" id="sendbtn" onclick="send()">→</button>
-      </div>
+        <input id="userInput" placeholder="Pose ta question..." />
+        <button onclick="sendMessage()">Envoyer</button>
     </div>
-  </div>
 
-  <!-- CONFIG -->
-  <div class="page config-page" id="page-config">
-    <div class="card">
-      <div class="card-title">🟢 OpenAI GPT-4o <span class="st st-off" id="key-status">Inactif</span></div>
-      <div class="card-sub">Entre ta clé OpenAI. Elle fonctionne sur iPhone, Android, PC et Mac sans problème.</div>
-      <input class="kinp" id="api-key-input" type="password" placeholder="sk-proj-..." autocomplete="off" autocorrect="off" spellcheck="false">
-      <button class="kbtn" onclick="saveKey()">✓ Connecter GPT-4o</button>
-      <a class="klink" href="https://platform.openai.com/api-keys" target="_blank">→ Obtenir ta clé sur platform.openai.com</a>
+    <div style="margin-top:10px;">
+        <button onclick="quick('GitHub automation')">GitHub</button>
+        <button onclick="quick('Fix WordPress SEO')">Fix WordPress</button>
+        <button onclick="quick('TikTok automation')">TikTok Auto</button>
+        <button onclick="quick('Build API')">API Builder</button>
+        <button onclick="quick('CI/CD deploy')">CI/CD</button>
+        <button onclick="quick('Free APIs list')">APIs gratuites</button>
     </div>
-    <div class="info-card">
-      ✅ <strong>Fonctionne sur tous les appareils</strong><br>
-      OpenAI autorise les appels directs depuis les navigateurs mobiles et desktop. Ta clé est stockée uniquement dans ce navigateur, jamais partagée.
-    </div>
-    <div class="warn-card">
-      ⚠️ <strong>Note :</strong> Claude AI (Anthropic) bloque les appels depuis les navigateurs par mesure de sécurité. C'est pourquoi on utilise GPT-4o qui lui est compatible partout.
-    </div>
-  </div>
+</div>
 
-  <!-- TOOLS -->
-  <div class="page tools-page" id="page-tools">
-    <div class="tool-card" onclick="goChat('Comment utiliser GitHub API pour analyser et gérer mon code ?')">
-      <div class="tc-top"><span class="tc-icon">🐙</span><span class="tc-name">GitHub</span><span class="tc-badge free">Gratuit</span></div>
-      <div class="tc-desc">Repos, CI/CD, commits, issues, GitHub Actions</div>
-      <a class="tc-link" href="https://github.com/settings/tokens" target="_blank">Créer token ↗</a>
-    </div>
-    <div class="tool-card" onclick="goChat('Comment utiliser WordPress REST API sur moneyabroadguide.com ?')">
-      <div class="tc-top"><span class="tc-icon">🌐</span><span class="tc-name">WordPress</span><span class="tc-badge free">Gratuit</span></div>
-      <div class="tc-desc">moneyabroadguide.com — REST API, plugins, shortcodes</div>
-    </div>
-    <div class="tool-card" onclick="goChat('Comment connecter TikTok API pour publier automatiquement depuis WordPress ?')">
-      <div class="tc-top"><span class="tc-icon">🎵</span><span class="tc-name">TikTok</span><span class="tc-badge key">API Key</span></div>
-      <div class="tc-desc">Auto-post, analytics, vidéos courtes</div>
-      <a class="tc-link" href="https://developers.tiktok.com" target="_blank">Dev portal ↗</a>
-    </div>
-    <div class="tool-card" onclick="goChat('Comment automatiser Gmail et Google Drive avec Google API ?')">
-      <div class="tc-top"><span class="tc-icon">📧</span><span class="tc-name">Gmail / Google</span><span class="tc-badge free">Gratuit</span></div>
-      <div class="tc-desc">Email auto, Drive, Calendar, Sheets</div>
-      <a class="tc-link" href="https://console.cloud.google.com" target="_blank">Google Cloud ↗</a>
-    </div>
-    <div class="tool-card" onclick="goChat('Comment créer des workflows automatiques avec Make.com gratuitement ?')">
-      <div class="tc-top"><span class="tc-icon">⚙️</span><span class="tc-name">Make.com</span><span class="tc-badge free">Gratuit</span></div>
-      <div class="tc-desc">5000+ apps connectées, workflows visuels</div>
-      <a class="tc-link" href="https://make.com" target="_blank">make.com ↗</a>
-    </div>
-    <div class="tool-card" onclick="goChat('Comment intégrer Stripe pour les paiements sur mon site ?')">
-      <div class="tc-top"><span class="tc-icon">💳</span><span class="tc-name">Stripe</span><span class="tc-badge free">Gratuit</span></div>
-      <div class="tc-desc">Paiements, abonnements, webhooks</div>
-      <a class="tc-link" href="https://dashboard.stripe.com" target="_blank">Dashboard ↗</a>
-    </div>
-    <div class="tool-card" onclick="goChat('Comment connecter Instagram Graph API pour auto-poster ?')">
-      <div class="tc-top"><span class="tc-icon">📸</span><span class="tc-name">Instagram</span><span class="tc-badge key">API Key</span></div>
-      <div class="tc-desc">Posts, stories, reels automatiques</div>
-      <a class="tc-link" href="https://developers.facebook.com" target="_blank">Meta Devs ↗</a>
-    </div>
-    <div class="tool-card" onclick="goChat('Comment utiliser Zapier pour automatiser mes tâches sans coder ?')">
-      <div class="tc-top"><span class="tc-icon">⚡</span><span class="tc-name">Zapier</span><span class="tc-badge free">Gratuit</span></div>
-      <div class="tc-desc">Automatisations no-code, 3000+ apps</div>
-      <a class="tc-link" href="https://zapier.com" target="_blank">zapier.com ↗</a>
-    </div>
-  </div>
+<!-- OUTILS -->
+<div class="section">
+    <div class="card" onclick="quick('GitHub automation')">GitHub</div>
+    <div class="card" onclick="quick('WordPress optimization')">WordPress</div>
+    <div class="card" onclick="quick('TikTok automation')">TikTok</div>
+    <div class="card" onclick="quick('Gmail API automation')">Gmail</div>
+    <div class="card" onclick="quick('Make.com workflows')">Make.com</div>
+    <div class="card" onclick="quick('Stripe automation')">Stripe</div>
+    <div class="card" onclick="quick('Instagram growth')">Instagram</div>
+    <div class="card" onclick="quick('Zapier automation')">Zapier</div>
+</div>
 
-  <!-- HISTORY -->
-  <div class="page hist-page" id="page-hist">
-    <div id="hist-list">
-      <div class="hist-empty" id="hist-empty">Aucune conversation.<br>Commence à chatter dans 💬 Chat !</div>
-    </div>
-  </div>
+<!-- CONFIG -->
+<div class="section">
+    <input id="apiKey" placeholder="sk-proj-..." />
+    <button onclick="saveKey()">Connecter GPT-4o</button>
+    <div class="status" id="status">Inactif</div>
+</div>
+
+<!-- HISTORIQUE -->
+<div class="section">
+    <div id="history"></div>
+</div>
 
 </div>
 
 <script>
-var SYSTEM = "Tu es My Super Hero Agent, un assistant technique universel. Parle TOUJOURS en français. Tu es expert en : GitHub (repo: talalnewjersey-ops), WordPress (moneyabroadguide.com), APIs REST et GraphQL, Make.com, Zapier, TikTok API, Gmail API, Stripe, GitHub Actions CI/CD, OpenAI API. Donne toujours du code complet et fonctionnel. Mentionne les outils avec [OUTIL: nom]. Sois concis et orienté solution.";
 
-var apiKey = '';
-var history = [];
-var mode = 'Chat général';
-var busy = false;
+let chatBox = document.getElementById("chatBox");
+let historyDiv = document.getElementById("history");
 
-try { apiKey = localStorage.getItem('hero_key') || ''; } catch(e) {}
-if (apiKey) {
-  document.getElementById('key-status').textContent = 'Actif';
-  document.getElementById('key-status').className = 'st st-on';
-  document.getElementById('api-key-input').placeholder = 'sk-••••••••••••';
+function switchTab(index){
+    let tabs = document.querySelectorAll(".tab");
+    let sections = document.querySelectorAll(".section");
+
+    tabs.forEach(t=>t.classList.remove("active"));
+    sections.forEach(s=>s.classList.remove("active"));
+
+    tabs[index].classList.add("active");
+    sections[index].classList.add("active");
 }
 
-function showTab(name) {
-  var tabs = document.querySelectorAll('.tab');
-  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('on');
-  document.getElementById('tab-' + name).classList.add('on');
-
-  var pages = document.querySelectorAll('.page');
-  for (var i = 0; i < pages.length; i++) pages[i].classList.remove('on');
-  document.getElementById('page-' + name).classList.add('on');
+function saveKey(){
+    let key = document.getElementById("apiKey").value;
+    localStorage.setItem("openai_key", key);
+    document.getElementById("status").innerText = "Actif";
 }
 
-function goChat(text) {
-  showTab('chat');
-  setTimeout(function() { ask(text); }, 150);
+function addMessage(text, role){
+    let div = document.createElement("div");
+    div.innerHTML = "<b>"+role+":</b> "+text;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    saveHistory(text, role);
 }
 
-function setChip(btn, m) {
-  var chips = document.querySelectorAll('.chip');
-  for (var i = 0; i < chips.length; i++) chips[i].classList.remove('on');
-  btn.classList.add('on');
-  mode = m;
+function saveHistory(text, role){
+    let h = JSON.parse(localStorage.getItem("history")||"[]");
+    h.push({text, role});
+    localStorage.setItem("history", JSON.stringify(h));
+    renderHistory();
 }
 
-function saveKey() {
-  var val = document.getElementById('api-key-input').value.trim();
-  if (!val || val.length < 10) {
-    alert('Entre une clé OpenAI valide (sk-proj-...)');
-    return;
-  }
-  apiKey = val;
-  try { localStorage.setItem('hero_key', val); } catch(e) {}
-  document.getElementById('key-status').textContent = 'Actif';
-  document.getElementById('key-status').className = 'st st-on';
-  document.getElementById('api-key-input').value = '';
-  document.getElementById('api-key-input').placeholder = 'sk-••••••••••••';
-  showTab('chat');
-  setTimeout(function() {
-    addBot('✅ **GPT-4o connecté !** Je suis opérationnel sur tous tes appareils.\n\nPose-moi n\'importe quelle question technique !');
-  }, 200);
+function renderHistory(){
+    let h = JSON.parse(localStorage.getItem("history")||"[]");
+    historyDiv.innerHTML = "";
+    h.forEach(item=>{
+        let div = document.createElement("div");
+        div.className="card";
+        div.innerText = item.role+": "+item.text;
+        div.onclick = ()=> quick(item.text);
+        historyDiv.appendChild(div);
+    });
 }
 
-function ask(text) {
-  document.getElementById('inp').value = text;
-  send();
+function quick(text){
+    document.getElementById("userInput").value = text;
 }
 
-function hideWelcome() {
-  var w = document.getElementById('welcome');
-  if (w) w.parentNode.removeChild(w);
-}
+function sendMessage(){
+    let input = document.getElementById("userInput").value;
+    let key = localStorage.getItem("openai_key");
 
-function addUser(text) {
-  hideWelcome();
-  var box = document.getElementById('msgs');
-  var d = document.createElement('div');
-  d.className = 'msg me';
-  d.innerHTML = '<div class="av av-me">Toi</div><div class="bubble me">' + esc(text) + '</div>';
-  box.appendChild(d);
-  box.scrollTop = box.scrollHeight;
-  addHist(text);
-}
+    addMessage(input, "USER");
 
-function addBot(text) {
-  hideWelcome();
-  var box = document.getElementById('msgs');
-  var d = document.createElement('div');
-  d.className = 'msg ai';
-  d.innerHTML = '<div class="av av-ai">G</div><div class="bubble ai"><div class="ai-label">● GPT-4o</div>' + fmt(text) + '</div>';
-  box.appendChild(d);
-  box.scrollTop = box.scrollHeight;
-}
-
-function showTyping() {
-  hideWelcome();
-  var box = document.getElementById('msgs');
-  var d = document.createElement('div');
-  d.id = 'typing-indicator';
-  d.className = 'typing-row';
-  d.innerHTML = '<div class="av av-ai">G</div><div class="typing-bub"><span class="typing-lbl">GPT-4o</span><span class="dots"><span></span><span></span><span></span></span></div>';
-  box.appendChild(d);
-  box.scrollTop = box.scrollHeight;
-}
-
-function removeTyping() {
-  var t = document.getElementById('typing-indicator');
-  if (t) t.parentNode.removeChild(t);
-}
-
-function addHist(text) {
-  var empty = document.getElementById('hist-empty');
-  if (empty) empty.parentNode.removeChild(empty);
-  var list = document.getElementById('hist-list');
-  var d = document.createElement('div');
-  d.className = 'hist-item';
-  d.textContent = '› ' + text.substring(0, 60) + (text.length > 60 ? '…' : '');
-  d.onclick = (function(t) { return function() { ask(t); }; })(text);
-  list.insertBefore(d, list.firstChild);
-}
-
-function fmt(t) {
-  t = t.replace(/```[\w]*\n?([\s\S]*?)```/g, function(_, c) {
-    return '<pre>' + esc(c.trim()) + '</pre>';
-  });
-  t = t.replace(/\[OUTIL:\s*([^\]]+)\]/gi, '<span class="tool-tag">🔧 $1</span>');
-  t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-  t = t.replace(/\n/g, '<br>');
-  return t;
-}
-
-function esc(t) {
-  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function getOfflineReply(q) {
-  var ql = q.toLowerCase();
-  if (ql.indexOf('github') >= 0 || ql.indexOf('repo') >= 0) {
-    return '[OUTIL: GitHub]\n\n**Connexion GitHub :**\n```\ngithub.com → Settings → Developer settings\n→ Personal access tokens → Generate new token\nScope : repo, workflow\n```\nVa dans **⚙️ Config** pour ajouter ta clé OpenAI !';
-  }
-  if (ql.indexOf('wordpress') >= 0 || ql.indexOf('moneyabroad') >= 0) {
-    return '[OUTIL: WordPress]\n\n**WordPress REST API :**\n```javascript\nfetch("https://moneyabroadguide.com/wp-json/wp/v2/posts")\n  .then(r => r.json())\n  .then(posts => console.log(posts));\n```\nVa dans **⚙️ Config** pour activer GPT-4o !';
-  }
-  if (ql.indexOf('tiktok') >= 0 || ql.indexOf('workflow') >= 0) {
-    return '[OUTIL: Make.com]\n\n**Workflow WordPress → TikTok :**\n1. Crée un compte sur make.com (gratuit)\n2. Nouveau scénario → Trigger : WordPress (nouveau post)\n3. Action : TikTok → Publier une vidéo\n\nVa dans **⚙️ Config** pour activer GPT-4o !';
-  }
-  return '👋 Bienvenue dans **My Super Hero Agent** !\n\nPour activer l\'IA GPT-4o :\n1. Va dans l\'onglet **⚙️ Config**\n2. Entre ta clé OpenAI (sk-proj-...)\n3. Clique **Connecter GPT-4o**\n\nEnsuite je réponds à tout en temps réel sur iPhone et PC !';
-}
-
-function send() {
-  var inp = document.getElementById('inp');
-  var text = inp.value.trim();
-  if (!text || busy) return;
-
-  busy = true;
-  document.getElementById('sendbtn').disabled = true;
-  inp.value = '';
-  inp.style.height = 'auto';
-
-  addUser(text);
-
-  var ctx = (mode !== 'Chat général') ? '[MODE: ' + mode + ']\n' + text : text;
-  history.push({ role: 'user', content: ctx });
-
-  if (!apiKey) {
-    var rep = getOfflineReply(text);
-    history.push({ role: 'assistant', content: rep });
-    addBot(rep);
-    busy = false;
-    document.getElementById('sendbtn').disabled = false;
-    return;
-  }
-
-  showTyping();
-
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'https://api.openai.com/v1/chat/completions', true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.setRequestHeader('Authorization', 'Bearer ' + apiKey);
-
-  xhr.onload = function() {
-    removeTyping();
-    try {
-      var data = JSON.parse(xhr.responseText);
-      if (data.error) {
-        addBot('❌ Erreur OpenAI : ' + data.error.message + '\n\nVérifie ta clé dans **⚙️ Config**.');
-      } else {
-        var reply = data.choices[0].message.content;
-        history.push({ role: 'assistant', content: reply });
-        addBot(reply);
-      }
-    } catch(e) {
-      addBot('❌ Erreur de parsing. Réessaie.');
+    if(!key){
+        offlineResponse(input);
+        return;
     }
-    busy = false;
-    document.getElementById('sendbtn').disabled = false;
-  };
 
-  xhr.onerror = function() {
-    removeTyping();
-    addBot('❌ Erreur réseau. Vérifie ta connexion internet et réessaie.');
-    busy = false;
-    document.getElementById('sendbtn').disabled = false;
-  };
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST","https://api.openai.com/v1/chat/completions",true);
 
-  xhr.ontimeout = function() {
-    removeTyping();
-    addBot('❌ Délai dépassé. Réessaie.');
-    busy = false;
-    document.getElementById('sendbtn').disabled = false;
-  };
+    xhr.setRequestHeader("Content-Type","application/json");
+    xhr.setRequestHeader("Authorization","Bearer "+key);
 
-  xhr.timeout = 30000;
+    xhr.timeout = 30000;
 
-  xhr.send(JSON.stringify({
-    model: 'gpt-4o',
-    max_tokens: 1500,
-    messages: [{ role: 'system', content: SYSTEM }].concat(history)
-  }));
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState === 4){
+            if(xhr.status === 200){
+                let res = JSON.parse(xhr.responseText);
+                let msg = res.choices[0].message.content;
+                addMessage(msg, "AGENT");
+            } else {
+                addMessage("Erreur API ou timeout", "SYSTEM");
+            }
+        }
+    };
+
+    xhr.onerror = function(){
+        addMessage("Erreur réseau", "SYSTEM");
+    };
+
+    xhr.ontimeout = function(){
+        addMessage("Timeout 30s dépassé", "SYSTEM");
+    };
+
+    let systemPrompt = "Tu es My Super Hero Agent. Parle toujours français. Expert en GitHub (talalnewjersey-ops), WordPress (moneyabroadguide.com), APIs REST, Make.com, TikTok API, Gmail API, Stripe, GitHub Actions CI/CD, OpenAI API. Donne du code complet. Mentionne les outils avec [OUTIL: nom].";
+
+    xhr.send(JSON.stringify({
+        model:"gpt-4o",
+        messages:[
+            {role:"system",content:systemPrompt},
+            {role:"user",content:input}
+        ]
+    }));
 }
+
+function offlineResponse(input){
+    let response = "Mode hors ligne actif.\n\n";
+
+    if(input.toLowerCase().includes("github")){
+        response += "[OUTIL: GitHub] → Automatisation CI/CD recommandée.";
+    } else if(input.toLowerCase().includes("wordpress")){
+        response += "[OUTIL: WordPress] → Optimisation SEO + plugins.";
+    } else if(input.toLowerCase().includes("tiktok")){
+        response += "[OUTIL: TikTok] → Automation contenu + viral hooks.";
+    } else {
+        response += "Ajoute une clé API pour réponses avancées.";
+    }
+
+    addMessage(response, "AGENT");
+}
+
+renderHistory();
+
 </script>
+
 </body>
 </html>
