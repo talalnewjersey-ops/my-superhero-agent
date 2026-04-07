@@ -12,148 +12,127 @@
   --white:#fff;--bg:#f7f7f5;--s2:#f2f2ef;--s3:#e8e8e4;
   --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
   --text:#1a1a1a;--muted:#9a9a96;--muted2:#6b6b67;
-  --claude:#cc5500;--openai:#10a37f;--blue:#2563eb;--green:#16a34a;
-  --amber:#d97706;--purple:#7c3aed;
+  --claude:#cc5500;--openai:#10a37f;--blue:#2563eb;--green:#16a34a;--amber:#d97706;--purple:#7c3aed;
   --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;--serif:'Instrument Serif',serif;
 }
-html,body{height:100%;overflow:hidden;background:var(--bg)}
+html,body{height:100%;overflow:hidden;background:var(--bg);-webkit-text-size-adjust:100%}
 body{color:var(--text);font-family:var(--sans);display:flex;flex-direction:column;height:100dvh}
 
-/* ── HEADER ── */
-header{
-display:flex;align-items:center;padding:0 16px;
-height:52px;border-bottom:1px solid var(–border);
-background:var(–white);flex-shrink:0;gap:10px;
-}
-.logo{font-family:var(–serif);font-size:17px;letter-spacing:-.3px;flex:1}
+header{display:flex;align-items:center;padding:0 14px;height:52px;border-bottom:1px solid var(–border);background:var(–white);flex-shrink:0;gap:8px}
+.logo{font-family:var(–serif);font-size:17px;flex:1}
 .logo em{font-style:italic;color:var(–claude)}
-.live{display:flex;align-items:center;gap:5px;padding:3px 9px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:20px;font-family:var(–mono);font-size:9px;color:var(–green);white-space:nowrap}
-.live-dot{width:5px;height:5px;border-radius:50%;background:var(–green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.pills{display:flex;gap:4px;flex-shrink:0}
-.pill{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-family:var(–mono);font-size:9px;font-weight:500;border:1px solid;cursor:pointer;transition:opacity .15s;white-space:nowrap}
+.live{display:flex;align-items:center;gap:5px;padding:3px 8px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:20px;font-family:var(–mono);font-size:9px;color:var(–green)}
+.ldot{width:5px;height:5px;border-radius:50%;background:var(–green);animation:p 2s infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+.pills{display:flex;gap:4px}
+.pill{padding:3px 8px;border-radius:20px;font-family:var(–mono);font-size:9px;font-weight:500;border:1px solid;white-space:nowrap}
 .pill-c{border-color:#fde8d4;background:#fff8f5;color:var(–claude)}
 .pill-o{border-color:#d1fae5;background:#f0fdf9;color:var(–openai)}
-.pill.off{opacity:.3}
-.ep-dot{width:4px;height:4px;border-radius:50%;background:currentColor}
 
-/* ── TABS (mobile nav) ── */
-.tabs{
-display:flex;border-bottom:1px solid var(–border);
-background:var(–white);flex-shrink:0;overflow-x:auto;
-}
-.tabs::-webkit-scrollbar{display:none}
-.tab{
-flex:1;min-width:60px;padding:10px 8px;
-font-family:var(–mono);font-size:9px;text-transform:uppercase;
-letter-spacing:.5px;color:var(–muted);border:none;background:transparent;
-cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;
-white-space:nowrap;
-}
-.tab.on{color:var(–claude);border-bottom-color:var(–claude)}
+/* TABS */
+.tabs{display:flex;background:var(–white);border-bottom:1px solid var(–border);flex-shrink:0}
+.tab{flex:1;padding:12px 4px;font-family:var(–mono);font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(–muted);border:none;background:transparent;cursor:pointer;border-bottom:2px solid transparent;-webkit-tap-highlight-color:transparent;transition:color .15s}
+.tab.active{color:var(–claude);border-bottom-color:var(–claude);font-weight:500}
 
-/* ── PANELS ── */
-.panels{flex:1;overflow:hidden;position:relative}
-.panel{position:absolute;inset:0;overflow-y:auto;display:none;flex-direction:column}
-.panel.active{display:flex}
-.panel::-webkit-scrollbar{width:3px}
-.panel::-webkit-scrollbar-thumb{background:var(–s3)}
+/* CONTENT */
+.content{flex:1;overflow:hidden;position:relative}
+.page{position:absolute;inset:0;overflow-y:auto;display:none;-webkit-overflow-scrolling:touch}
+.page.show{display:block}
 
-/* ── CHAT PANEL ── */
-.msgs{
-flex:1;overflow-y:auto;padding:20px 16px;
-display:flex;flex-direction:column;gap:16px;scroll-behavior:smooth;
-}
-.msgs::-webkit-scrollbar{width:3px}
-.msgs::-webkit-scrollbar-thumb{background:var(–s3)}
-
-.welcome{padding:24px 16px;text-align:center}
-.w-title{font-family:var(–serif);font-size:32px;line-height:1.1;letter-spacing:-1px;margin-bottom:10px}
-.w-title em{font-style:italic;color:var(–claude)}
-.w-sub{font-size:13px;color:var(–muted2);line-height:1.7;margin-bottom:24px;font-weight:300}
-.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.qb{padding:12px;background:var(–white);border:1px solid var(–border);border-radius:12px;color:var(–muted2);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;text-align:left;line-height:1.4}
-.qb:active{border-color:var(–claude);color:var(–text)}
+/* CHAT PAGE */
+#page-chat{display:none;flex-direction:column}
+#page-chat.show{display:flex}
+.msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px;-webkit-overflow-scrolling:touch}
+.welcome{padding:20px 8px;text-align:center}
+.wtitle{font-family:var(–serif);font-size:34px;line-height:1.1;letter-spacing:-1px;margin-bottom:10px}
+.wtitle em{font-style:italic;color:var(–claude)}
+.wsub{font-size:13px;color:var(–muted2);line-height:1.7;margin-bottom:22px}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qb{padding:12px;background:var(–white);border:1px solid var(–border);border-radius:12px;color:var(–muted2);font-size:11px;font-weight:500;cursor:pointer;text-align:left;line-height:1.4;-webkit-tap-highlight-color:transparent}
+.qb:active{border-color:var(–claude);background:var(–bg)}
 .qi{font-size:16px;display:block;margin-bottom:4px}
 
-.msg{display:flex;gap:8px;animation:up .2s ease}
-@keyframes up{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.msg.user{flex-direction:row-reverse;align-self:flex-end;max-width:85%}
-.msg.agent{max-width:95%}
-.av{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-top:1px;font-family:var(–mono);font-weight:500}
+.msg{display:flex;gap:8px;animation:fadeup .2s ease}
+@keyframes fadeup{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse;max-width:85%;align-self:flex-end}
+.msg.bot{max-width:95%}
+.av{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;font-family:var(–mono);font-weight:500}
 .av-c{background:#fff3ec;border:1px solid #fde8d4;color:var(–claude)}
 .av-o{background:#f0fdf9;border:1px solid #d1fae5;color:var(–openai)}
 .av-u{background:var(–s2);border:1px solid var(–border2);color:var(–muted2)}
-.bubble{padding:10px 13px;border-radius:14px;font-size:13px;line-height:1.65}
-.msg.user .bubble{background:var(–text);color:var(–white);border-top-right-radius:3px}
-.bc{background:var(–white);border:1px solid var(–border);border-top-left-radius:3px}
-.bo{background:#f0fdf9;border:1px solid #d1fae5;border-top-left-radius:3px}
-.eng-lbl{font-family:var(–mono);font-size:8px;font-weight:500;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.el-c{color:var(–claude)}
-.el-o{color:var(–openai)}
-.bubble pre{background:var(–bg);border:1px solid var(–border2);border-radius:8px;padding:10px;font-family:var(–mono);font-size:10px;overflow-x:auto;margin:8px 0;line-height:1.5;color:var(–text)}
-.bubble .tag{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:var(–s2);border:1px solid var(–border2);border-radius:20px;font-family:var(–mono);font-size:9px;color:var(–muted2);margin:2px 2px 2px 0}
-.bubble ul,.bubble ol{padding-left:16px}
-.bubble li{margin:3px 0}
-.bubble strong{font-weight:600}
-.bubble a{color:var(–blue)}
+.bub{padding:10px 13px;border-radius:14px;font-size:13px;line-height:1.65}
+.msg.user .bub{background:var(–text);color:#fff;border-top-right-radius:3px}
+.bub-c{background:#fff;border:1px solid var(–border);border-top-left-radius:3px}
+.bub-o{background:#f0fdf9;border:1px solid #d1fae5;border-top-left-radius:3px}
+.elbl{font-family:var(–mono);font-size:8px;font-weight:500;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.elbl-c{color:var(–claude)}
+.elbl-o{color:var(–openai)}
+.bub pre{background:var(–bg);border:1px solid var(–border2);border-radius:8px;padding:10px;font-family:var(–mono);font-size:10px;overflow-x:auto;margin:8px 0;line-height:1.5}
+.bub .tag{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:var(–s2);border:1px solid var(–border2);border-radius:20px;font-family:var(–mono);font-size:9px;color:var(–muted2);margin:2px 2px 2px 0}
+.bub ul,.bub ol{padding-left:16px}
+.bub li{margin:3px 0}
+.bub strong{font-weight:600}
+.bub a{color:var(–blue)}
 
-.typing-row{display:flex;gap:8px}
-.typing-bub{padding:9px 12px;background:var(–white);border:1px solid var(–border);border-radius:14px;border-top-left-radius:3px;display:flex;align-items:center;gap:7px}
-.t-lbl{font-family:var(–mono);font-size:8px;color:var(–muted);text-transform:uppercase}
+.typrow{display:flex;gap:8px}
+.typbub{padding:9px 12px;background:#fff;border:1px solid var(–border);border-radius:14px;border-top-left-radius:3px;display:flex;align-items:center;gap:7px}
+.tlbl{font-family:var(–mono);font-size:8px;color:var(–muted);text-transform:uppercase}
 .dots{display:flex;gap:3px}
 .dots span{width:4px;height:4px;border-radius:50%;background:var(–muted);animation:bop 1.1s infinite}
 .dots span:nth-child(2){animation-delay:.15s}
 .dots span:nth-child(3){animation-delay:.3s}
 @keyframes bop{0%,80%,100%{transform:scale(.6);opacity:.4}40%{transform:scale(1);opacity:1}}
 
-/* ── INPUT BAR ── */
-.input-zone{padding:12px 16px;border-top:1px solid var(–border);background:var(–white);flex-shrink:0}
-.mode-row{display:flex;gap:4px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px}
-.mode-row::-webkit-scrollbar{display:none}
-.mchip{padding:4px 10px;border-radius:20px;font-family:var(–mono);font-size:9px;text-transform:uppercase;border:1px solid var(–border);background:transparent;color:var(–muted);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .15s}
-.mchip.on{background:var(–text);border-color:var(–text);color:var(–white)}
-.inp-row{display:flex;gap:8px;align-items:flex-end}
-textarea{flex:1;background:var(–bg);border:1px solid var(–border);border-radius:12px;padding:10px 13px;color:var(–text);font-family:var(–sans);font-size:14px;resize:none;outline:none;min-height:44px;max-height:120px;line-height:1.5;transition:border-color .15s;-webkit-appearance:none}
-textarea:focus{border-color:var(–text);background:var(–white)}
+.inputzone{padding:12px 14px;border-top:1px solid var(–border);background:#fff;flex-shrink:0}
+.moderow{display:flex;gap:4px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px}
+.moderow::-webkit-scrollbar{display:none}
+.mchip{padding:4px 10px;border-radius:20px;font-family:var(–mono);font-size:9px;text-transform:uppercase;border:1px solid var(–border);background:transparent;color:var(–muted);cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.mchip.on{background:var(–text);border-color:var(–text);color:#fff}
+.inprow{display:flex;gap:8px;align-items:flex-end}
+textarea{flex:1;background:var(–bg);border:1px solid var(–border);border-radius:12px;padding:10px 13px;color:var(–text);font-family:var(–sans);font-size:16px;resize:none;outline:none;min-height:44px;max-height:120px;line-height:1.5;-webkit-appearance:none;border-radius:12px}
+textarea:focus{border-color:var(–text);background:#fff}
 textarea::placeholder{color:var(–muted)}
-.send-btn{width:44px;height:44px;border-radius:12px;background:var(–text);border:none;color:var(–white);font-size:18px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
-.send-btn:active{transform:scale(.95)}
-.send-btn:disabled{opacity:.3}
+.sendbtn{width:44px;height:44px;border-radius:12px;background:var(–text);border:none;color:#fff;font-size:20px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+.sendbtn:active{transform:scale(.93)}
+.sendbtn:disabled{opacity:.3}
 
-/* ── SETTINGS PANEL ── */
-.set-panel{padding:16px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
-.set-card{background:var(–white);border:1px solid var(–border);border-radius:12px;padding:14px}
-.set-title{font-size:13px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.kb-st{font-family:var(–mono);font-size:9px;padding:2px 7px;border-radius:10px;text-transform:uppercase;margin-left:auto}
-.st-off{background:#f3f4f6;color:var(–muted)}
-.st-on{background:#f0fdf4;color:var(–green)}
-.kb-inp{width:100%;padding:8px 10px;background:var(–bg);border:1px solid var(–border2);border-radius:8px;color:var(–text);font-family:var(–mono);font-size:11px;outline:none;margin-bottom:8px;-webkit-appearance:none}
-.kb-inp:focus{border-color:var(–claude)}
-.kb-inp::placeholder{color:var(–muted)}
-.kb-save{width:100%;padding:9px;border-radius:8px;border:1px solid var(–border2);background:var(–white);color:var(–text);font-family:var(–mono);font-size:10px;cursor:pointer;font-weight:500;-webkit-tap-highlight-color:transparent}
-.kb-save:active{background:var(–text);color:var(–white)}
-.kb-link{display:block;margin-top:6px;font-family:var(–mono);font-size:9px;color:var(–blue);text-decoration:none}
+/* CONFIG PAGE */
+#page-config{padding:16px;gap:12px;display:none;flex-direction:column}
+#page-config.show{display:flex}
+.kcard{background:#fff;border:1px solid var(–border);border-radius:14px;padding:16px}
+.kcard-title{font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.kst{font-family:var(–mono);font-size:9px;padding:2px 8px;border-radius:10px;text-transform:uppercase;margin-left:auto}
+.kst-off{background:#f3f4f6;color:var(–muted)}
+.kst-on{background:#f0fdf4;color:var(–green)}
+.kinp{width:100%;padding:10px 12px;background:var(–bg);border:1px solid var(–border2);border-radius:10px;color:var(–text);font-family:var(–mono);font-size:12px;outline:none;margin-bottom:10px;-webkit-appearance:none;font-size:16px}
+.kinp:focus{border-color:var(–claude)}
+.kinp::placeholder{color:var(–muted)}
+.ksave{width:100%;padding:12px;border-radius:10px;border:none;background:var(–text);color:#fff;font-family:var(–sans);font-size:14px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ksave:active{background:#333}
+.klink{display:block;margin-top:8px;font-family:var(–mono);font-size:10px;color:var(–blue);text-decoration:none;text-align:center}
+.tip-card{background:#fef9ec;border:1px solid #fde68a;border-radius:14px;padding:14px;font-size:12px;color:var(–amber);line-height:1.6}
 
-/* ── TOOLS PANEL ── */
-.tools-panel{padding:12px;display:flex;flex-direction:column;gap:8px;overflow-y:auto}
-.tool-card{background:var(–white);border:1px solid var(–border);border-radius:12px;padding:13px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s}
-.tool-card:active{border-color:var(–claude)}
+/* TOOLS PAGE */
+#page-tools{padding:12px;gap:8px;display:none;flex-direction:column}
+#page-tools.show{display:flex}
+.tcard{background:#fff;border:1px solid var(–border);border-radius:12px;padding:13px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tcard:active{border-color:var(–claude);background:var(–bg)}
 .tc-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
 .tc-icon{font-size:18px}
 .tc-name{font-size:13px;font-weight:600;flex:1}
 .tc-badge{font-family:var(–mono);font-size:9px;padding:2px 7px;border-radius:10px;text-transform:uppercase}
-.ib-free{background:#f0fdf4;color:var(–green)}
-.ib-pay{background:#fef9ec;color:var(–amber)}
-.ib-key{background:#f5f3ff;color:var(–purple)}
+.bf{background:#f0fdf4;color:var(–green)}
+.bp{background:#fef9ec;color:var(–amber)}
+.bk{background:#f5f3ff;color:var(–purple)}
 .tc-desc{font-size:11px;color:var(–muted2);line-height:1.5}
-.tc-link{display:inline-flex;align-items:center;gap:3px;margin-top:6px;font-family:var(–mono);font-size:9px;color:var(–blue);text-decoration:none}
+.tc-link{display:inline-flex;align-items:center;gap:3px;margin-top:5px;font-family:var(–mono);font-size:9px;color:var(–blue);text-decoration:none}
 
-/* ── HISTORY PANEL ── */
-.hist-panel{padding:12px;overflow-y:auto}
-.hist-item{padding:10px 12px;background:var(–white);border:1px solid var(–border);border-radius:10px;font-size:12px;color:var(–muted2);cursor:pointer;margin-bottom:6px;-webkit-tap-highlight-color:transparent;line-height:1.4}
-.hist-item:active{color:var(–text);border-color:var(–border2)}
-.hist-empty{text-align:center;color:var(–muted);font-size:12px;padding:40px 16px}
+/* HISTORY PAGE */
+#page-hist{padding:12px;display:none;flex-direction:column;gap:8px}
+#page-hist.show{display:flex}
+.hitem{padding:12px;background:#fff;border:1px solid var(–border);border-radius:10px;font-size:12px;color:var(–muted2);cursor:pointer;line-height:1.4;-webkit-tap-highlight-color:transparent}
+.hitem:active{color:var(–text);border-color:var(–border2)}
+.hempty{text-align:center;color:var(–muted);font-size:13px;padding:50px 20px;line-height:1.7}
 </style>
 
 </head>
@@ -161,189 +140,139 @@ textarea::placeholder{color:var(–muted)}
 
 <header>
   <div class="logo">My <em>Super Hero</em></div>
-  <div class="live"><div class="live-dot"></div>En ligne</div>
+  <div class="live"><div class="ldot"></div>En ligne</div>
   <div class="pills">
-    <div class="pill pill-c" id="pill-c"><div class="ep-dot"></div>Claude</div>
-    <div class="pill pill-o" id="pill-o"><div class="ep-dot"></div>GPT-4o</div>
+    <div class="pill pill-c" id="pill-c">● Claude</div>
+    <div class="pill pill-o" id="pill-o">● GPT-4o</div>
   </div>
 </header>
 
 <div class="tabs">
-  <button class="tab on" onclick="showTab(this,'chat')">💬 Chat</button>
-  <button class="tab" onclick="showTab(this,'tools')">🔌 Outils</button>
-  <button class="tab" onclick="showTab(this,'settings')">⚙️ Config</button>
-  <button class="tab" onclick="showTab(this,'history')">📋 Historique</button>
+  <button class="tab active" id="tab-chat" onclick="goTab('chat')">💬 Chat</button>
+  <button class="tab" id="tab-tools" onclick="goTab('tools')">🔌 Outils</button>
+  <button class="tab" id="tab-config" onclick="goTab('config')">⚙️ Config</button>
+  <button class="tab" id="tab-hist" onclick="goTab('hist')">📋 Historique</button>
 </div>
 
-<div class="panels">
+<div class="content">
 
   <!-- CHAT -->
 
-  <div class="panel active" id="panel-chat" style="flex-direction:column">
+  <div class="page show" id="page-chat" style="display:flex;flex-direction:column">
     <div class="msgs" id="msgs">
       <div class="welcome" id="welcome">
-        <div class="w-title">My <em>Super<br>Hero</em> Agent</div>
-        <div class="w-sub">Claude + GPT-4o en simultané.<br>GitHub, WordPress, TikTok, APIs, workflows.</div>
+        <div class="wtitle">My <em>Super<br>Hero</em> Agent</div>
+        <div class="wsub">Claude + GPT-4o en simultané.<br>GitHub, WordPress, TikTok, APIs, workflows.</div>
         <div class="qgrid">
-          <button class="qb" onclick="ask('Analyse mon repo GitHub talalnewjersey-ops et suggère des améliorations')"><span class="qi">🔍</span>GitHub</button>
-          <button class="qb" onclick="ask('Corriger les bugs de moneyabroadguide.com — layout, menu double, mobile')"><span class="qi">🐛</span>Fix WordPress</button>
-          <button class="qb" onclick="ask('Crée un workflow WordPress vers TikTok automatique avec le code complet')"><span class="qi">⚙️</span>TikTok Auto</button>
-          <button class="qb" onclick="ask('Comment connecter une API REST avec OAuth ? Donne le code complet')"><span class="qi">🔌</span>API Builder</button>
-          <button class="qb" onclick="ask('Crée un GitHub Actions CI/CD pour déployer mon site automatiquement')"><span class="qi">🚀</span>CI/CD Deploy</button>
-          <button class="qb" onclick="ask('Quelles APIs gratuites pour automatiser mon business en ligne ?')"><span class="qi">💡</span>APIs gratuites</button>
+          <button class="qb" onclick="ask('Analyse mon repo GitHub talalnewjersey-ops')"><span class="qi">🔍</span>GitHub</button>
+          <button class="qb" onclick="ask('Corriger les bugs de moneyabroadguide.com')"><span class="qi">🐛</span>Fix WordPress</button>
+          <button class="qb" onclick="ask('Crée un workflow WordPress vers TikTok automatique')"><span class="qi">⚙️</span>TikTok Auto</button>
+          <button class="qb" onclick="ask('Comment connecter une API REST avec OAuth ?')"><span class="qi">🔌</span>API Builder</button>
+          <button class="qb" onclick="ask('Crée un GitHub Actions CI/CD pour déployer mon site')"><span class="qi">🚀</span>CI/CD Deploy</button>
+          <button class="qb" onclick="ask('Quelles APIs gratuites pour mon business en ligne ?')"><span class="qi">💡</span>APIs gratuites</button>
         </div>
       </div>
     </div>
-    <div class="input-zone">
-      <div class="mode-row">
+    <div class="inputzone">
+      <div class="moderow">
         <button class="mchip on" onclick="setMode(this,'Chat général')">Chat</button>
         <button class="mchip" onclick="setMode(this,'GitHub')">GitHub</button>
         <button class="mchip" onclick="setMode(this,'API')">API</button>
         <button class="mchip" onclick="setMode(this,'Workflow')">Workflow</button>
         <button class="mchip" onclick="setMode(this,'Debug')">Debug</button>
-        <button class="mchip" onclick="setMode(this,'WordPress moneyabroadguide.com')">WordPress</button>
+        <button class="mchip" onclick="setMode(this,'WordPress')">WordPress</button>
       </div>
-      <div class="inp-row">
+      <div class="inprow">
         <textarea id="inp" placeholder="Pose ta question..." rows="1"
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"
-          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
-        <button class="send-btn" id="sendbtn" onclick="send()">→</button>
+          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
+        <button class="sendbtn" id="sendbtn" onclick="send()">→</button>
       </div>
     </div>
+  </div>
+
+  <!-- CONFIG -->
+
+  <div class="page" id="page-config">
+    <div class="kcard">
+      <div class="kcard-title">🟠 Claude AI <span class="kst kst-off" id="st-c">Inactif</span></div>
+      <input class="kinp" id="key-c" type="password" placeholder="sk-ant-api03-..." autocomplete="off">
+      <button class="ksave" onclick="saveKey('c','Claude AI')">✓ Connecter Claude</button>
+      <a class="klink" href="https://console.anthropic.com/settings/keys" target="_blank">→ Obtenir clé : console.anthropic.com</a>
+    </div>
+    <div class="kcard">
+      <div class="kcard-title">🟢 OpenAI GPT-4o <span class="kst kst-off" id="st-o">Inactif</span></div>
+      <input class="kinp" id="key-o" type="password" placeholder="sk-..." autocomplete="off">
+      <button class="ksave" onclick="saveKey('o','OpenAI GPT-4o')">✓ Connecter OpenAI</button>
+      <a class="klink" href="https://platform.openai.com/api-keys" target="_blank">→ Obtenir clé : platform.openai.com</a>
+    </div>
+    <div class="tip-card">💡 Tes clés sont sauvegardées uniquement dans ce navigateur. Elles ne sont jamais partagées.</div>
   </div>
 
   <!-- TOOLS -->
 
-  <div class="panel" id="panel-tools">
-    <div class="tools-panel">
-      <div class="tool-card" onclick="askAndChat('Comment obtenir et utiliser ma clé API Claude Anthropic ?')">
-        <div class="tc-top"><span class="tc-icon">🟠</span><span class="tc-name">Claude AI</span><span class="tc-badge ib-pay">Payant</span></div>
-        <div class="tc-desc">Claude Sonnet — IA principale</div>
-        <a class="tc-link" href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com ↗</a>
-      </div>
-      <div class="tool-card" onclick="askAndChat('Comment utiliser GPT-4o avec OpenAI API ?')">
-        <div class="tc-top"><span class="tc-icon">🟢</span><span class="tc-name">OpenAI GPT-4o</span><span class="tc-badge ib-pay">Payant</span></div>
-        <div class="tc-desc">GPT-4o — IA en parallèle</div>
-        <a class="tc-link" href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com ↗</a>
-      </div>
-      <div class="tool-card" onclick="askAndChat('Comment utiliser GitHub API pour gérer mon code automatiquement ?')">
-        <div class="tc-top"><span class="tc-icon">🐙</span><span class="tc-name">GitHub</span><span class="tc-badge ib-free">Gratuit</span></div>
-        <div class="tc-desc">Repos, actions CI/CD, issues</div>
-        <a class="tc-link" href="https://github.com/settings/tokens" target="_blank">Créer token ↗</a>
-      </div>
-      <div class="tool-card" onclick="askAndChat('Comment utiliser WordPress REST API sur moneyabroadguide.com ?')">
-        <div class="tc-top"><span class="tc-icon">🌐</span><span class="tc-name">WordPress</span><span class="tc-badge ib-free">Gratuit</span></div>
-        <div class="tc-desc">moneyabroadguide.com REST API</div>
-      </div>
-      <div class="tool-card" onclick="askAndChat('Comment connecter TikTok API pour publier automatiquement ?')">
-        <div class="tc-top"><span class="tc-icon">🎵</span><span class="tc-name">TikTok</span><span class="tc-badge ib-key">API Key</span></div>
-        <div class="tc-desc">Auto-post, analytics, vidéos</div>
-        <a class="tc-link" href="https://developers.tiktok.com" target="_blank">Dev portal ↗</a>
-      </div>
-      <div class="tool-card" onclick="askAndChat('Comment automatiser Gmail avec Google API ?')">
-        <div class="tc-top"><span class="tc-icon">📧</span><span class="tc-name">Gmail / Google</span><span class="tc-badge ib-free">Gratuit</span></div>
-        <div class="tc-desc">Email, Drive, Calendar, Sheets</div>
-        <a class="tc-link" href="https://console.cloud.google.com" target="_blank">Google Cloud ↗</a>
-      </div>
-      <div class="tool-card" onclick="askAndChat('Comment créer des workflows automatiques avec Make.com ?')">
-        <div class="tc-top"><span class="tc-icon">⚙️</span><span class="tc-name">Make.com</span><span class="tc-badge ib-free">Gratuit</span></div>
-        <div class="tc-desc">5000+ apps, workflows visuels</div>
-        <a class="tc-link" href="https://make.com" target="_blank">make.com ↗</a>
-      </div>
-      <div class="tool-card" onclick="askAndChat('Comment intégrer Stripe pour les paiements sur mon site ?')">
-        <div class="tc-top"><span class="tc-icon">💳</span><span class="tc-name">Stripe</span><span class="tc-badge ib-free">Gratuit</span></div>
-        <div class="tc-desc">Paiements, abonnements, webhooks</div>
-        <a class="tc-link" href="https://dashboard.stripe.com" target="_blank">Dashboard ↗</a>
-      </div>
-      <div class="tool-card" onclick="askAndChat('Comment connecter Instagram Graph API pour auto-poster ?')">
-        <div class="tc-top"><span class="tc-icon">📸</span><span class="tc-name">Instagram</span><span class="tc-badge ib-key">API Key</span></div>
-        <div class="tc-desc">Posts, stories, reels auto</div>
-        <a class="tc-link" href="https://developers.facebook.com" target="_blank">Meta Devs ↗</a>
-      </div>
-      <div class="tool-card" onclick="askAndChat('Comment utiliser Zapier pour automatiser mes tâches ?')">
-        <div class="tc-top"><span class="tc-icon">⚡</span><span class="tc-name">Zapier</span><span class="tc-badge ib-free">Gratuit</span></div>
-        <div class="tc-desc">Automatisations no-code</div>
-        <a class="tc-link" href="https://zapier.com" target="_blank">zapier.com ↗</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- SETTINGS -->
-
-  <div class="panel" id="panel-settings">
-    <div class="set-panel">
-      <div class="set-card">
-        <div class="set-title">🟠 Claude AI <span class="kb-st st-off" id="st-c">Inactif</span></div>
-        <input class="kb-inp" id="key-c" type="password" placeholder="sk-ant-api03-...">
-        <button class="kb-save" onclick="saveKey('c','Claude AI')">Connecter Claude</button>
-        <a class="kb-link" href="https://console.anthropic.com/settings/keys" target="_blank">→ Obtenir clé sur console.anthropic.com</a>
-      </div>
-      <div class="set-card">
-        <div class="set-title">🟢 OpenAI GPT-4o <span class="kb-st st-off" id="st-o">Inactif</span></div>
-        <input class="kb-inp" id="key-o" type="password" placeholder="sk-...">
-        <button class="kb-save" onclick="saveKey('o','OpenAI GPT-4o')">Connecter OpenAI</button>
-        <a class="kb-link" href="https://platform.openai.com/api-keys" target="_blank">→ Obtenir clé sur platform.openai.com</a>
-      </div>
-      <div class="set-card">
-        <div class="set-title">🐙 GitHub Token</div>
-        <input class="kb-inp" id="key-gh" type="password" placeholder="ghp_...">
-        <button class="kb-save" onclick="saveKey('gh','GitHub')">Connecter GitHub</button>
-        <a class="kb-link" href="https://github.com/settings/tokens" target="_blank">→ Créer token sur github.com</a>
-      </div>
-      <div class="set-card" style="background:#fef9ec;border-color:#fde68a">
-        <div class="set-title" style="font-size:12px;color:var(--amber)">💡 Astuce sécurité</div>
-        <div style="font-size:11px;color:var(--muted2);line-height:1.6">Tes clés sont sauvegardées uniquement dans ton navigateur (localStorage). Elles ne sont jamais envoyées à un serveur tiers.</div>
-      </div>
+  <div class="page" id="page-tools">
+    <div style="padding:12px;display:flex;flex-direction:column;gap:8px">
+      <div class="tcard" onclick="askChat('Comment utiliser GitHub API pour mon code ?')"><div class="tc-top"><span class="tc-icon">🐙</span><span class="tc-name">GitHub</span><span class="tc-badge bf">Gratuit</span></div><div class="tc-desc">Repos, CI/CD, commits, issues</div><a class="tc-link" href="https://github.com/settings/tokens" target="_blank">Créer token ↗</a></div>
+      <div class="tcard" onclick="askChat('Comment utiliser WordPress REST API sur moneyabroadguide.com ?')"><div class="tc-top"><span class="tc-icon">🌐</span><span class="tc-name">WordPress</span><span class="tc-badge bf">Gratuit</span></div><div class="tc-desc">moneyabroadguide.com REST API</div></div>
+      <div class="tcard" onclick="askChat('Comment connecter TikTok API pour publier automatiquement ?')"><div class="tc-top"><span class="tc-icon">🎵</span><span class="tc-name">TikTok</span><span class="tc-badge bk">API Key</span></div><div class="tc-desc">Auto-post, analytics, vidéos</div><a class="tc-link" href="https://developers.tiktok.com" target="_blank">Dev portal ↗</a></div>
+      <div class="tcard" onclick="askChat('Comment automatiser Gmail avec Google API ?')"><div class="tc-top"><span class="tc-icon">📧</span><span class="tc-name">Gmail / Google</span><span class="tc-badge bf">Gratuit</span></div><div class="tc-desc">Email, Drive, Calendar, Sheets</div><a class="tc-link" href="https://console.cloud.google.com" target="_blank">Google Cloud ↗</a></div>
+      <div class="tcard" onclick="askChat('Comment créer des workflows automatiques avec Make.com ?')"><div class="tc-top"><span class="tc-icon">⚙️</span><span class="tc-name">Make.com</span><span class="tc-badge bf">Gratuit</span></div><div class="tc-desc">5000+ apps, workflows visuels</div><a class="tc-link" href="https://make.com" target="_blank">make.com ↗</a></div>
+      <div class="tcard" onclick="askChat('Comment intégrer Stripe pour les paiements ?')"><div class="tc-top"><span class="tc-icon">💳</span><span class="tc-name">Stripe</span><span class="tc-badge bf">Gratuit</span></div><div class="tc-desc">Paiements, abonnements, webhooks</div><a class="tc-link" href="https://dashboard.stripe.com" target="_blank">Dashboard ↗</a></div>
+      <div class="tcard" onclick="askChat('Comment connecter Instagram Graph API ?')"><div class="tc-top"><span class="tc-icon">📸</span><span class="tc-name">Instagram</span><span class="tc-badge bk">API Key</span></div><div class="tc-desc">Posts, stories, reels auto</div><a class="tc-link" href="https://developers.facebook.com" target="_blank">Meta Devs ↗</a></div>
+      <div class="tcard" onclick="askChat('Comment utiliser Zapier pour automatiser mes tâches ?')"><div class="tc-top"><span class="tc-icon">⚡</span><span class="tc-name">Zapier</span><span class="tc-badge bf">Gratuit</span></div><div class="tc-desc">Automatisations no-code</div><a class="tc-link" href="https://zapier.com" target="_blank">zapier.com ↗</a></div>
     </div>
   </div>
 
   <!-- HISTORY -->
 
-  <div class="panel" id="panel-history">
-    <div class="hist-panel" id="hist-panel">
-      <div class="hist-empty" id="hist-empty">Aucune conversation pour l'instant.<br>Commence à chatter !</div>
+  <div class="page" id="page-hist">
+    <div id="hist-content" style="padding:12px;display:flex;flex-direction:column;gap:8px">
+      <div class="hempty" id="hempty">Aucune conversation.<br>Commence à chatter dans l'onglet 💬 !</div>
     </div>
   </div>
 
 </div>
 
 <script>
-const SYS=`Tu es My Super Hero Agent, assistant technique universel. Tu parles toujours français. Expert en : GitHub, WordPress (moneyabroadguide.com), APIs REST/GraphQL, Make.com, Zapier, TikTok API, Gmail API, Stripe, GitHub Actions CI/CD, debug, Claude API, OpenAI API. Donne du code complet et fonctionnel. Sois concis et orienté solution. Mentionne les outils avec [OUTIL: nom].`;
-let hist=[],mode='Chat général',busy=false;
-let keys={};
-try{keys=JSON.parse(localStorage.getItem('msh3')||'{}')}catch(e){}
-if(keys.c){document.getElementById('st-c').textContent='Actif';document.getElementById('st-c').className='kb-st st-on';}
-if(keys.o){document.getElementById('st-o').textContent='Actif';document.getElementById('st-o').className='kb-st st-on';}
+const SYS=`Tu es My Super Hero Agent, assistant technique universel. Parle toujours français. Expert en GitHub, WordPress (moneyabroadguide.com), APIs REST/GraphQL, Make.com, Zapier, TikTok API, Gmail API, Stripe, GitHub Actions CI/CD, Claude API, OpenAI API. Donne du code complet. Mentionne les outils avec [OUTIL: nom].`;
+let hist=[],mode='Chat général',busy=false,keys={};
+try{keys=JSON.parse(localStorage.getItem('msh4')||'{}')}catch(e){}
+if(keys.c){document.getElementById('st-c').textContent='Actif';document.getElementById('st-c').className='kst kst-on';}
+if(keys.o){document.getElementById('st-o').textContent='Actif';document.getElementById('st-o').className='kst kst-on';}
 
-function showTab(btn,id){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  btn.classList.add('on');
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+id).classList.add('active');
+function goTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>{
+    p.classList.remove('show');
+    p.style.display='none';
+  });
+  const pg=document.getElementById('page-'+name);
+  pg.classList.add('show');
+  if(name==='chat'){
+    pg.style.display='flex';
+    pg.style.flexDirection='column';
+  } else {
+    pg.style.display='flex';
+    pg.style.flexDirection='column';
+    pg.style.overflowY='auto';
+  }
 }
 
-function askAndChat(t){
-  showTab(document.querySelector('.tab'),'chat');
-  document.querySelectorAll('.tab')[0].classList.add('on');
-  setTimeout(()=>{ask(t);},100);
-}
+function askChat(t){goTab('chat');setTimeout(()=>ask(t),100);}
 
 function saveKey(id,name){
   const v=document.getElementById('key-'+id).value.trim();
-  if(!v){alert('Entre une clé API valide');return;}
+  if(!v){alert('Entre ta clé API');return;}
   keys[id]=v;
-  localStorage.setItem('msh3',JSON.stringify(keys));
-  if(id==='c'||id==='o'){
-    document.getElementById('st-'+id).textContent='Actif';
-    document.getElementById('st-'+id).className='kb-st st-on';
-  }
+  localStorage.setItem('msh4',JSON.stringify(keys));
+  document.getElementById('st-'+id).textContent='Actif';
+  document.getElementById('st-'+id).className='kst kst-on';
   document.getElementById('key-'+id).value='';
   document.getElementById('key-'+id).placeholder='••••••••••••';
-  showTab(document.querySelectorAll('.tab')[0],'chat');
-  document.querySelectorAll('.tab')[0].classList.add('on');
-  setTimeout(()=>{
-    addMsg('agent','✅ **'+name+'** connecté avec succès ! Je suis maintenant opérationnel.\n\nPose-moi n\'importe quelle question technique !','c');
-  },200);
+  goTab('chat');
+  setTimeout(()=>addMsg('bot','✅ **'+name+'** connecté ! Je suis opérationnel.\n\nPose-moi n\'importe quelle question technique !','c'),200);
 }
 
 function setMode(btn,m){
@@ -364,26 +293,26 @@ function addMsg(role,content,eng){
   const d=document.createElement('div');
   if(role==='user'){
     d.className='msg user';
-    d.innerHTML='<div class="av av-u">Toi</div><div class="bubble">'+esc(content)+'</div>';
+    d.innerHTML='<div class="av av-u">Toi</div><div class="bub">'+esc(content)+'</div>';
   } else {
-    const isc=eng==='c';
-    d.className='msg agent';
-    d.innerHTML='<div class="av '+(isc?'av-c':'av-o')+'">'+(isc?'C':'G')+'</div><div class="bubble '+(isc?'bc':'bo')+'"><div class="eng-lbl '+(isc?'el-c':'el-o')+'">'+(isc?'● Claude Sonnet':'● GPT-4o')+'</div>'+fmt(content)+'</div>';
+    const c=eng==='c';
+    d.className='msg bot';
+    d.innerHTML='<div class="av '+(c?'av-c':'av-o')+'">'+(c?'C':'G')+'</div><div class="bub '+(c?'bub-c':'bub-o')+'"><div class="elbl '+(c?'elbl-c':'elbl-o')+'">'+(c?'● Claude Sonnet':'● GPT-4o')+'</div>'+fmt(content)+'</div>';
   }
   box.appendChild(d);
   box.scrollTop=box.scrollHeight;
-  addToHistory(content,role);
+  if(role==='user')addHist(content);
 }
 
-function showT(eng){
+function showT(e){
   hideW();
   const box=document.getElementById('msgs');
   const d=document.createElement('div');
-  d.id='t-'+eng;d.className='typing-row';
-  d.innerHTML='<div class="av '+(eng==='c'?'av-c':'av-o')+'">'+(eng==='c'?'C':'G')+'</div><div class="typing-bub"><span class="t-lbl">'+(eng==='c'?'Claude':'GPT-4o')+'</span><div class="dots"><span></span><span></span><span></span></div></div>';
+  d.id='typ-'+e;d.className='typrow';
+  d.innerHTML='<div class="av '+(e==='c'?'av-c':'av-o')+'">'+(e==='c'?'C':'G')+'</div><div class="typbub"><span class="tlbl">'+(e==='c'?'Claude':'GPT-4o')+'</span><div class="dots"><span></span><span></span><span></span></div></div>';
   box.appendChild(d);box.scrollTop=box.scrollHeight;
 }
-function rmT(eng){document.getElementById('t-'+eng)?.remove();}
+function rmT(e){document.getElementById('typ-'+e)?.remove();}
 
 function fmt(t){
   t=t.replace(/```(\w*)\n?([\s\S]*?)```/g,(_,l,c)=>'<pre>'+esc(c.trim())+'</pre>');
@@ -395,47 +324,32 @@ return t;
 }
 function esc(t){return t.replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’);}
 
-let histItems=[];
-function addToHistory(content,role){
-if(role!==‘user’)return;
-histItems.unshift(content);
-const hp=document.getElementById(‘hist-panel’);
-const he=document.getElementById(‘hist-empty’);
-if(he)he.remove();
+function addHist(t){
+const he=document.getElementById(‘hempty’);if(he)he.remove();
+const hc=document.getElementById(‘hist-content’);
 const d=document.createElement(‘div’);
-d.className=‘hist-item’;
-d.textContent=’› ‘+content.substring(0,50)+(content.length>50?’…’:’’);
-d.onclick=()=>ask(content);
-hp.prepend(d);
+d.className=‘hitem’;
+d.textContent=’› ‘+t.substring(0,55)+(t.length>55?’…’:’’);
+d.onclick=()=>ask(t);
+hc.prepend(d);
 }
 
 function offline(q){
 const ql=q.toLowerCase();
-if(ql.includes(‘github’)||ql.includes(‘repo’))return ‘[OUTIL: GitHub]\n\n**Token GitHub :**\n`\ngithub.com → Settings → Developer settings\n→ Personal access tokens → Generate new token\nScope : repo, workflow\n`\n\nAjoute ta clé **Claude** dans ⚙️ Config pour des réponses IA complètes !’;
-if(ql.includes(‘wordpress’)||ql.includes(‘moneyabroad’))return ‘[OUTIL: WordPress]\n\n**WordPress REST API :**\n`javascript\nfetch("https://moneyabroadguide.com/wp-json/wp/v2/posts")\n  .then(r=>r.json()).then(p=>console.log(p));\n`\nVa dans ⚙️ Config pour connecter Claude ou GPT-4o !’;
-if(ql.includes(‘tiktok’)||ql.includes(‘workflow’)||ql.includes(‘social’))return ‘[OUTIL: Make.com]\n\nWorkflow WordPress → TikTok :\n1. make.com → Nouveau scénario\n2. Trigger : WordPress (nouveau post)\n3. Action : TikTok (publier)\n\nVa dans ⚙️ Config pour activer l'IA !’;
-return ‘Bienvenue ! 🚀\n\nVa dans l'onglet **⚙️ Config** pour connecter :\n- **Claude AI** (sk-ant-…)\n- **OpenAI GPT-4o** (sk-…)\n\nEnsuite je réponds à tout avec l'IA complète !’;
+if(ql.includes(‘github’))return ‘[OUTIL: GitHub]\n\n**Pour connecter GitHub :**\n`\ngithub.com → Settings → Developer settings\n→ Personal access tokens → Generate\nScope: repo, workflow\n`\nVa dans **⚙️ Config** pour ajouter ta clé Claude !’;
+if(ql.includes(‘wordpress’)||ql.includes(‘moneyabroad’))return ‘[OUTIL: WordPress]\n\n**WordPress REST API :**\n`javascript\nfetch("https://moneyabroadguide.com/wp-json/wp/v2/posts")\n  .then(r=>r.json()).then(p=>console.log(p));\n`\nVa dans **⚙️ Config** pour activer l'IA !’;
+if(ql.includes(‘tiktok’)||ql.includes(‘workflow’))return ‘[OUTIL: Make.com]\n\n**Workflow WordPress → TikTok :**\n1. make.com → Nouveau scénario\n2. Trigger: WordPress (nouveau post)\n3. Action: TikTok (publier)\n\nVa dans **⚙️ Config** pour activer l'IA complète !’;
+return ‘Bienvenue ! 🚀\n\nPour activer l'IA, va dans l'onglet **⚙️ Config** et entre :\n- Ta clé **Claude** (sk-ant-…)\n- Ta clé **OpenAI** (sk-…)\n\nEnsuite je réponds à tout en temps réel !’;
 }
 
-async function callC(msgs){
-const r=await fetch(‘https://api.anthropic.com/v1/messages’,{
-method:‘POST’,
-headers:{‘Content-Type’:‘application/json’,‘x-api-key’:keys.c,‘anthropic-version’:‘2023-06-01’,‘anthropic-dangerous-direct-browser-access’:‘true’},
-body:JSON.stringify({model:‘claude-sonnet-4-20250514’,max_tokens:1000,system:SYS,messages:msgs})
-});
-const d=await r.json();
-if(d.error)throw new Error(d.error.message);
+async function callC(m){
+const r=await fetch(‘https://api.anthropic.com/v1/messages’,{method:‘POST’,headers:{‘Content-Type’:‘application/json’,‘x-api-key’:keys.c,‘anthropic-version’:‘2023-06-01’,‘anthropic-dangerous-direct-browser-access’:‘true’},body:JSON.stringify({model:‘claude-sonnet-4-20250514’,max_tokens:1000,system:SYS,messages:m})});
+const d=await r.json();if(d.error)throw new Error(d.error.message);
 return d.content?.[0]?.text||‘Erreur Claude.’;
 }
-
-async function callO(msgs){
-const r=await fetch(‘https://api.openai.com/v1/chat/completions’,{
-method:‘POST’,
-headers:{‘Content-Type’:‘application/json’,‘Authorization’:’Bearer ’+keys.o},
-body:JSON.stringify({model:‘gpt-4o’,max_tokens:1000,messages:[{role:‘system’,content:SYS},…msgs]})
-});
-const d=await r.json();
-if(d.error)throw new Error(d.error.message);
+async function callO(m){
+const r=await fetch(‘https://api.openai.com/v1/chat/completions’,{method:‘POST’,headers:{‘Content-Type’:‘application/json’,‘Authorization’:’Bearer ’+keys.o},body:JSON.stringify({model:‘gpt-4o’,max_tokens:1000,messages:[{role:‘system’,content:SYS},…m]})});
+const d=await r.json();if(d.error)throw new Error(d.error.message);
 return d.choices?.[0]?.message?.content||‘Erreur OpenAI.’;
 }
 
@@ -446,28 +360,31 @@ if(!text||busy)return;
 busy=true;
 document.getElementById(‘sendbtn’).disabled=true;
 inp.value=’’;inp.style.height=‘auto’;
-addMsg(‘user’,text,‘u’);
-const ctx=mode!==‘Chat général’?’[MODE: ‘+mode+’]\n’+text:text;
-hist.push({role:‘user’,content:ctx});
+addMsg(‘user’,text);
+hist.push({role:‘user’,content:mode!==‘Chat général’?’[MODE:’+mode+’]\n’+text:text});
 const hc=!!keys.c,ho=!!keys.o;
 if(!hc&&!ho){
 const rep=offline(text);
 hist.push({role:‘assistant’,content:rep});
-addMsg(‘agent’,rep,‘c’);
+addMsg(‘bot’,rep,‘c’);
 busy=false;document.getElementById(‘sendbtn’).disabled=false;return;
 }
 const calls=[];
-if(hc){showT(‘c’);calls.push({eng:‘c’,p:callC(hist)});}
-if(ho){showT(‘o’);calls.push({eng:‘o’,p:callO(hist)});}
-await Promise.allSettled(calls.map(async({eng,p})=>{
-try{
-const rep=await p;rmT(eng);addMsg(‘agent’,rep,eng);
-if(eng===‘c’)hist.push({role:‘assistant’,content:rep});
-}catch(e){rmT(eng);addMsg(‘agent’,’❌ Erreur : ’+e.message,eng);}
+if(hc){showT(‘c’);calls.push({e:‘c’,p:callC(hist)});}
+if(ho){showT(‘o’);calls.push({e:‘o’,p:callO(hist)});}
+await Promise.allSettled(calls.map(async({e,p})=>{
+try{const rep=await p;rmT(e);addMsg(‘bot’,rep,e);if(e===‘c’)hist.push({role:‘assistant’,content:rep});}
+catch(err){rmT(e);addMsg(‘bot’,’❌ Erreur: ’+err.message,e);}
 }));
 busy=false;document.getElementById(‘sendbtn’).disabled=false;
-document.getElementById(‘inp’).focus();
 }
+
+// Init display
+document.querySelectorAll(’.page’).forEach(p=>{
+if(!p.classList.contains(‘show’)){p.style.display=‘none’;}
+});
+document.getElementById(‘page-chat’).style.display=‘flex’;
+document.getElementById(‘page-chat’).style.flexDirection=‘column’;
 </script>
 
 </body>
