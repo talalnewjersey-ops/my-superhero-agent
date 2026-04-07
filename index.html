@@ -1,92 +1,36 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Super Hero Agent</title>
+<title>My Super Hero Agent SaaS</title>
 
-<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono&display=swap" rel="stylesheet">
 
 <style>
-body {
-    margin:0;
-    font-family:'DM Sans', sans-serif;
-    background:#ffffff;
-    color:#111;
-}
+body{margin:0;font-family:'DM Sans';background:#fff;color:#111}
+.container{max-width:1000px;margin:auto;padding:15px}
 
-.container {
-    max-width:1000px;
-    margin:auto;
-    padding:10px;
-}
+.hidden{display:none}
 
-.tabs {
-    display:flex;
-    justify-content:space-around;
-    border-bottom:1px solid #eee;
-}
+.card{border:1px solid #eee;border-radius:12px;padding:20px;margin-bottom:10px}
 
-.tab {
-    padding:10px;
-    cursor:pointer;
-}
+input{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin:5px 0;font-family:'DM Mono'}
 
-.active {
-    font-weight:bold;
-    border-bottom:2px solid #000;
-}
+button{padding:12px;border:none;background:#111;color:#fff;border-radius:10px;cursor:pointer}
 
-.section {
-    display:none;
-    padding:10px;
-}
+.tabs{display:flex;gap:10px;margin:10px 0}
+.tab{padding:10px;border-radius:8px;cursor:pointer}
+.tab.active{background:#111;color:#fff}
 
-.section.active {
-    display:block;
-}
+.chat-box{height:50vh;overflow:auto;border:1px solid #eee;border-radius:10px;padding:10px;margin-bottom:10px}
 
-.chat-box {
-    height:60vh;
-    overflow-y:auto;
-    border:1px solid #eee;
-    padding:10px;
-    margin-bottom:10px;
-}
+.msg{margin-bottom:8px}
 
-.input-area {
-    display:flex;
-}
-
-input, textarea {
-    flex:1;
-    padding:10px;
-    border:1px solid #ddd;
-}
-
-button {
-    padding:10px;
-    border:none;
-    background:#000;
-    color:#fff;
-    cursor:pointer;
-}
-
-.card {
-    border:1px solid #eee;
-    padding:15px;
-    margin:10px 0;
-    cursor:pointer;
-}
-
-.status {
-    margin-top:10px;
-    font-weight:bold;
-}
+.quick button{margin:5px}
 
 @media(max-width:600px){
-    .chat-box{height:50vh;}
+.chat-box{height:45vh}
 }
 </style>
 </head>
@@ -95,192 +39,207 @@ button {
 
 <div class="container">
 
+<!-- LOGIN -->
+<div id="auth">
+
 <h2>🦸 My Super Hero Agent</h2>
 
+<div class="card">
+<input id="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Password">
+
+<button onclick="signup()">Sign Up</button>
+<button onclick="login()">Login</button>
+</div>
+
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+
+<h2>Dashboard</h2>
+
 <div class="tabs">
-    <div class="tab active" onclick="switchTab(0)">💬 Chat</div>
-    <div class="tab" onclick="switchTab(1)">🔌 Outils</div>
-    <div class="tab" onclick="switchTab(2)">⚙️ Config</div>
-    <div class="tab" onclick="switchTab(3)">📋 Historique</div>
+<div class="tab active" onclick="tab(0)">Chat</div>
+<div class="tab" onclick="tab(1)">Tools</div>
+<div class="tab" onclick="tab(2)">Config</div>
+<div class="tab" onclick="tab(3)">History</div>
 </div>
 
 <!-- CHAT -->
-<div class="section active">
-    <div class="chat-box" id="chatBox"></div>
+<div class="section">
 
-    <div>
-        <select id="mode">
-            <option>Chat</option>
-            <option>GitHub</option>
-            <option>API</option>
-            <option>Workflow</option>
-            <option>Debug</option>
-            <option>WordPress</option>
-        </select>
-    </div>
+<div class="chat-box" id="chat"></div>
 
-    <div class="input-area">
-        <input id="userInput" placeholder="Pose ta question..." />
-        <button onclick="sendMessage()">Envoyer</button>
-    </div>
+<select id="mode">
+<option>Chat</option>
+<option>GitHub</option>
+<option>API</option>
+<option>Workflow</option>
+<option>Debug</option>
+<option>WordPress</option>
+</select>
 
-    <div style="margin-top:10px;">
-        <button onclick="quick('GitHub automation')">GitHub</button>
-        <button onclick="quick('Fix WordPress SEO')">Fix WordPress</button>
-        <button onclick="quick('TikTok automation')">TikTok Auto</button>
-        <button onclick="quick('Build API')">API Builder</button>
-        <button onclick="quick('CI/CD deploy')">CI/CD</button>
-        <button onclick="quick('Free APIs list')">APIs gratuites</button>
-    </div>
+<input id="input" placeholder="Ask anything">
+<button onclick="send()">Send</button>
+
+<div class="quick">
+<button onclick="quick('GitHub automation')">GitHub</button>
+<button onclick="quick('Fix WordPress SEO')">WP Fix</button>
+<button onclick="quick('TikTok automation')">TikTok</button>
+<button onclick="quick('Build API')">API</button>
+<button onclick="quick('CI/CD deploy')">CI/CD</button>
 </div>
 
-<!-- OUTILS -->
-<div class="section">
-    <div class="card" onclick="quick('GitHub automation')">GitHub</div>
-    <div class="card" onclick="quick('WordPress optimization')">WordPress</div>
-    <div class="card" onclick="quick('TikTok automation')">TikTok</div>
-    <div class="card" onclick="quick('Gmail API automation')">Gmail</div>
-    <div class="card" onclick="quick('Make.com workflows')">Make.com</div>
-    <div class="card" onclick="quick('Stripe automation')">Stripe</div>
-    <div class="card" onclick="quick('Instagram growth')">Instagram</div>
-    <div class="card" onclick="quick('Zapier automation')">Zapier</div>
+</div>
+
+<!-- TOOLS -->
+<div class="section hidden">
+<div class="card" onclick="quick('GitHub automation')">GitHub</div>
+<div class="card" onclick="quick('WordPress optimization')">WordPress</div>
+<div class="card" onclick="quick('TikTok automation')">TikTok</div>
+<div class="card" onclick="quick('Stripe setup')">Stripe</div>
 </div>
 
 <!-- CONFIG -->
-<div class="section">
-    <input id="apiKey" placeholder="sk-proj-..." />
-    <button onclick="saveKey()">Connecter GPT-4o</button>
-    <div class="status" id="status">Inactif</div>
+<div class="section hidden">
+<input id="key" placeholder="sk-proj-...">
+<button onclick="saveKey()">Connect GPT</button>
+<div id="status">Inactive</div>
 </div>
 
-<!-- HISTORIQUE -->
-<div class="section">
-    <div id="history"></div>
+<!-- HISTORY -->
+<div class="section hidden">
+<div id="history"></div>
+</div>
+
 </div>
 
 </div>
 
 <script>
 
-let chatBox = document.getElementById("chatBox");
-let historyDiv = document.getElementById("history");
+var systemPrompt="You are My Super Hero Agent. Always speak English. Expert in GitHub, WordPress, APIs, TikTok, Stripe, OpenAI. Give full code. Use [TOOL:].";
 
-function switchTab(index){
-    let tabs = document.querySelectorAll(".tab");
-    let sections = document.querySelectorAll(".section");
+function signup(){
+var e=document.getElementById("email").value;
+var p=document.getElementById("pass").value;
+localStorage.setItem("user",JSON.stringify({e:e,p:p}));
+alert("Account created");
+}
 
-    tabs.forEach(t=>t.classList.remove("active"));
-    sections.forEach(s=>s.classList.remove("active"));
+function login(){
+var e=document.getElementById("email").value;
+var p=document.getElementById("pass").value;
+var u=JSON.parse(localStorage.getItem("user")||"{}");
 
-    tabs[index].classList.add("active");
-    sections[index].classList.add("active");
+if(e===u.e && p===u.p){
+document.getElementById("auth").classList.add("hidden");
+document.getElementById("app").classList.remove("hidden");
+}else{
+alert("Wrong login");
+}
+}
+
+function tab(i){
+var t=document.querySelectorAll(".tab");
+var s=document.querySelectorAll(".section");
+
+t.forEach(x=>x.classList.remove("active"));
+s.forEach(x=>x.classList.add("hidden"));
+
+t[i].classList.add("active");
+s[i].classList.remove("hidden");
+}
+
+function add(role,text){
+var d=document.createElement("div");
+d.className="msg";
+d.innerHTML="<b>"+role+":</b> "+text;
+document.getElementById("chat").appendChild(d);
+
+saveHistory(role,text);
+}
+
+function quick(t){
+document.getElementById("input").value=t;
 }
 
 function saveKey(){
-    let key = document.getElementById("apiKey").value;
-    localStorage.setItem("openai_key", key);
-    document.getElementById("status").innerText = "Actif";
+var k=document.getElementById("key").value;
+localStorage.setItem("api_key",k);
+document.getElementById("status").innerText="Active";
 }
 
-function addMessage(text, role){
-    let div = document.createElement("div");
-    div.innerHTML = "<b>"+role+":</b> "+text;
-    chatBox.appendChild(div);
-    chatBox.scrollTop = chatBox.scrollHeight;
+function send(){
+var msg=document.getElementById("input").value;
+var key=localStorage.getItem("api_key");
 
-    saveHistory(text, role);
+add("USER",msg);
+
+if(!key){offline(msg);return;}
+
+var xhr=new XMLHttpRequest();
+xhr.open("POST","https://api.openai.com/v1/chat/completions",true);
+
+xhr.setRequestHeader("Content-Type","application/json");
+xhr.setRequestHeader("Authorization","Bearer "+key);
+
+xhr.timeout=30000;
+
+xhr.onreadystatechange=function(){
+if(xhr.readyState===4){
+if(xhr.status===200){
+var r=JSON.parse(xhr.responseText);
+add("AGENT",r.choices[0].message.content);
+}else{
+add("SYSTEM","API Error");
+}
+}
+};
+
+xhr.onerror=function(){add("SYSTEM","Network Error");};
+xhr.ontimeout=function(){add("SYSTEM","Timeout");};
+
+xhr.send(JSON.stringify({
+model:"gpt-4o",
+messages:[
+{role:"system",content:systemPrompt},
+{role:"user",content:msg}
+]
+}));
 }
 
-function saveHistory(text, role){
-    let h = JSON.parse(localStorage.getItem("history")||"[]");
-    h.push({text, role});
-    localStorage.setItem("history", JSON.stringify(h));
-    renderHistory();
+function offline(m){
+var r="Offline mode.\n";
+
+if(m.includes("github")) r+="[TOOL: GitHub] CI/CD recommended";
+else if(m.includes("wordpress")) r+="[TOOL: WordPress] SEO optimize";
+else r+="Add API key";
+
+add("AGENT",r);
 }
 
-function renderHistory(){
-    let h = JSON.parse(localStorage.getItem("history")||"[]");
-    historyDiv.innerHTML = "";
-    h.forEach(item=>{
-        let div = document.createElement("div");
-        div.className="card";
-        div.innerText = item.role+": "+item.text;
-        div.onclick = ()=> quick(item.text);
-        historyDiv.appendChild(div);
-    });
+function saveHistory(r,t){
+var h=JSON.parse(localStorage.getItem("hist")||"[]");
+h.push({r:r,t:t});
+localStorage.setItem("hist",JSON.stringify(h));
+loadHistory();
 }
 
-function quick(text){
-    document.getElementById("userInput").value = text;
+function loadHistory(){
+var h=JSON.parse(localStorage.getItem("hist")||"[]");
+var c=document.getElementById("history");
+c.innerHTML="";
+
+h.forEach(x=>{
+var d=document.createElement("div");
+d.className="card";
+d.innerText=x.r+": "+x.t;
+d.onclick=function(){quick(x.t)};
+c.appendChild(d);
+});
 }
-
-function sendMessage(){
-    let input = document.getElementById("userInput").value;
-    let key = localStorage.getItem("openai_key");
-
-    addMessage(input, "USER");
-
-    if(!key){
-        offlineResponse(input);
-        return;
-    }
-
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST","https://api.openai.com/v1/chat/completions",true);
-
-    xhr.setRequestHeader("Content-Type","application/json");
-    xhr.setRequestHeader("Authorization","Bearer "+key);
-
-    xhr.timeout = 30000;
-
-    xhr.onreadystatechange = function(){
-        if(xhr.readyState === 4){
-            if(xhr.status === 200){
-                let res = JSON.parse(xhr.responseText);
-                let msg = res.choices[0].message.content;
-                addMessage(msg, "AGENT");
-            } else {
-                addMessage("Erreur API ou timeout", "SYSTEM");
-            }
-        }
-    };
-
-    xhr.onerror = function(){
-        addMessage("Erreur réseau", "SYSTEM");
-    };
-
-    xhr.ontimeout = function(){
-        addMessage("Timeout 30s dépassé", "SYSTEM");
-    };
-
-    let systemPrompt = "Tu es My Super Hero Agent. Parle toujours français. Expert en GitHub (talalnewjersey-ops), WordPress (moneyabroadguide.com), APIs REST, Make.com, TikTok API, Gmail API, Stripe, GitHub Actions CI/CD, OpenAI API. Donne du code complet. Mentionne les outils avec [OUTIL: nom].";
-
-    xhr.send(JSON.stringify({
-        model:"gpt-4o",
-        messages:[
-            {role:"system",content:systemPrompt},
-            {role:"user",content:input}
-        ]
-    }));
-}
-
-function offlineResponse(input){
-    let response = "Mode hors ligne actif.\n\n";
-
-    if(input.toLowerCase().includes("github")){
-        response += "[OUTIL: GitHub] → Automatisation CI/CD recommandée.";
-    } else if(input.toLowerCase().includes("wordpress")){
-        response += "[OUTIL: WordPress] → Optimisation SEO + plugins.";
-    } else if(input.toLowerCase().includes("tiktok")){
-        response += "[OUTIL: TikTok] → Automation contenu + viral hooks.";
-    } else {
-        response += "Ajoute une clé API pour réponses avancées.";
-    }
-
-    addMessage(response, "AGENT");
-}
-
-renderHistory();
 
 </script>
 
